@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface AwardRepository extends JpaRepository<Award, Long> {
-    List<Award> findByWinnerTrue();
 
     @Query(value = "select group_concat(distinct(a.id)), count(a.producers) from award a " +
             "where a.winner = 'yes' " +

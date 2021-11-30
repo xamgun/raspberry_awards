@@ -5,6 +5,10 @@
 * Access http://localhost:8080/h2-console for database console
 * Use user root and password #1234#
 
+### Access endpoint
+* Endpoint http://localhost:8080/awards/result
+* Method GET
+
 ### Reference Documentation
 
 For further reference, please consider the following sections:

@@ -10,6 +10,7 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,7 +28,7 @@ public class ImportServiceImpl implements ImportService {
         this.repository = repository;
     }
 
-    private static String csvFile = "/home/max/IdeaProjects/raspberry_awards/src/main/resources/static/movielist.csv";
+    private static String csvFile = new File("src/main/resources/static/movielist.csv").getAbsolutePath();
 
     @Override
     @EventListener(ApplicationReadyEvent.class)
@@ -57,8 +58,7 @@ public class ImportServiceImpl implements ImportService {
 
         //For each procucer take awards list
         for (Object[] record : arrayListFromDb) {
-            List<Award> sortedAwardList = new ArrayList<>();
-
+            List<Award> sortedAwardList;
 
             List<Award> awardsFromProdutors = this.awardsFromProdutors(record);
             sortedAwardList = awardsFromProdutors.stream().sorted(Comparator.comparing(Award::getYear)).collect(Collectors.toList());
@@ -73,12 +73,26 @@ public class ImportServiceImpl implements ImportService {
             Winner maxWinner = new Winner(maxAwardList.get(0).getProducers(),
                     (maxAwardList.get(1).getYear() - maxAwardList.get(0).getYear()),
                     maxAwardList.get(0).getYear(), maxAwardList.get(1).getYear());
+
             minWinnerList.add(minWinner);
             maxWinnerList.add(maxWinner);
-            winners.setMin(minWinnerList);
-            winners.setMax(maxWinnerList);
-            winnerResults.add(winners);
+
         }
+        Winner min = minWinnerList.stream().sorted(Comparator.comparing(Winner::getInterval)).collect(Collectors.toList()).get(0);
+        Winner max = maxWinnerList.stream().sorted(Comparator.comparing(Winner::getInterval)).collect(Collectors.toList()).get(maxWinnerList.size() -1);
+
+        minWinnerList.clear();
+        maxWinnerList.clear();
+
+        minWinnerList.add(min);
+        maxWinnerList.add(max);
+
+        winners.setMin(minWinnerList);
+        winners.setMax(maxWinnerList);
+        winnerResults.add(winners);
+
+
+
         return winnerResults;
     }
 

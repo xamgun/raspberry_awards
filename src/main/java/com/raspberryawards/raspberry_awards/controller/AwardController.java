@@ -19,16 +19,19 @@ public class AwardController {
     @Autowired
     private ImportService service;
 
-    @GetMapping(value = "/test")
-    List<Award> findAll() {
-        List<Award> list = service.findAll();
-        return list;
-    }
-
+    /**
+     * Endpoint return movie awarded
+     * */
     @GetMapping(value = "/result")
     ResponseEntity<List<WinnerResult>> findResult() throws Exception {
         List<WinnerResult> list = service.findResult();
         return new ResponseEntity<>(list, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/test")
+    List<Award> findAll() {
+        List<Award> list = service.findAll();
+        return list;
     }
 
 }
