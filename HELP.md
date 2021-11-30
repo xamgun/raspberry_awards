@@ -1,5 +1,10 @@
 # Getting Started
 
+### Initial database configuration
+* Create a new file called test.mv.db at your user home directory
+* Access http://localhost:8080/h2-console for database console
+* Use user root and password #1234#
+
 ### Reference Documentation
 
 For further reference, please consider the following sections:
